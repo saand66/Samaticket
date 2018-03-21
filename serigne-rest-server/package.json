@@ -1,0 +1,23 @@
+{
+  "name": "serigne-rest-server",
+  "version": "1.0.0",
+  "description": "serveur http pour api REST",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "server.http.api.rest"
+  ],
+  "author": "serigne ndiaye",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.2.0",
+    "mysql2": "^1.5.2",
+    "sequelize": "^4.0.0"
+  }
+}

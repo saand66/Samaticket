@@ -1,0 +1,29 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "database_development",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": "8889",
+    "socketPath":"/Applications/MAMP/library/bin/mysql.sock"
+  },
+  "test": {
+    "username": "root",
+    "password": "root",
+    "database": "database_test",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": "8889",
+    "socketPath":"/Applications/MAMP/library/bin/mysql.sock"
+  },
+  "production": {
+    "username": "root",
+    "password": "root",
+    "database": "database_production",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": "8889",
+    "socketPath":"/Applications/MAMP/library/bin/mysql/mysql.sock"
+  }
+}
