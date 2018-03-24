@@ -2,28 +2,28 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Trajets', {
-      idtrajet: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      Iduser: {
+      UserId: {
         type: Sequelize.INTEGER,
         REFERENCES:{
           models:'Users',
-          key:'iduser',
+          key:'id',
         }
       },
-      LieuDep: {
+      lieuDep: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      LieuArr: {
+      lieuArr: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      DateDep: {
+      dateDep: {
         allowNull: false,
         type: Sequelize.DATE
       },
@@ -31,7 +31,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      tarifVoay: {
+      tarifvoy: {
         allowNull: false,
         type: Sequelize.INTEGER
       },

@@ -4,7 +4,7 @@
 var bcrypt = require('bcrypt');
 var jwtutils = require ('../utils/jwt.utils');
 var models = require('../models');
-var asynclib = require('async');
+var asyncLib = require('async');
 // Contantes
 const Email_Regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ;
 const PassWord_Regexp = /^(?=.*\d).{4,8}$/;
@@ -25,7 +25,7 @@ module.exports = {
      return res.status(400).json({ 'error':'Infos manquantes'});
     }
 
-     if (username.length >= 13 || username.length<= 5) {
+     if (username.length >= 13 || username.length< 5) {
          return res.status(400).json({ 'error' : 'votre nom utilisateur doit etre compris enntre 5 et 13 Caractetre'});
 
      }
@@ -121,8 +121,8 @@ module.exports = {
     getUserProfile : function(req ,res){
         // Get  Auth header
         
-        var hearderAuth = req.headers['authorization'];
-        var UserId = jwtutils.getUserId(hearderAuth);
+        var headerAuth = req.headers['authorization'];
+        var UserId = jwtutils.getUserId(headerAuth);
         console.log(UserId);
         if(UserId < 0)
             return res.status(400).json({'error' : 'wrong token' });
@@ -144,10 +144,45 @@ module.exports = {
 
     }  ,
 
-    updateUserProfile :  function(req, res) {
-
-
-
-    }
-
+    updateUserProfile: function(req, res) {
+        // Getting auth header
+        var headerAuth  = req.headers['authorization'];
+        var userId  = jwtutils.getUserId(headerAuth);
+    
+        // Params
+        var descrip = req.body.descrip;
+    
+        asyncLib.waterfall([
+          function(done) {
+            models.User.findOne({
+              attributes: ['id', 'descrip'],
+              where: { id: userId }
+            }).then(function (userFound) {
+              done(null, userFound);
+            })
+            .catch(function(err) {
+              return res.status(500).json({ 'error': 'Impossible de verifier utilisateur '});
+            });
+          },
+          function(userFound, done) {
+            if(userFound) {
+              userFound.update({
+                descrip: (descrip ? descrip : userFound.descrip)
+              }).then(function() {
+                done(userFound);
+              }).catch(function(err) {
+                res.status(500).json({ 'error': 'cannot update user' });
+              });
+            } else {
+              res.status(404).json({ 'error': 'user not found' });
+            }
+          },
+        ], function(userFound) {
+          if (userFound) {
+            return res.status(201).json(userFound);
+          } else {
+            return res.status(500).json({ 'error': 'cannot update user profile' });
+          }
+        });
+      }
  }
